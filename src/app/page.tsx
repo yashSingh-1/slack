@@ -1,11 +1,14 @@
 "use client"
 
 import UserButton from "@/features/auth/components/user-button";
-import { useGetWorkspaces } from "@/features/auth/workspaces/api/use-get-workspaces";
+import { useCreateWorkspaceModal } from "@/features/workspaces/store/use-create-workspace-model";
+import { useGetWorkspaces } from "@/features/workspaces/api/use-get-workspaces";
 import { useEffect, useMemo } from "react";
 
 export default function Home() {
   const {data, isLoading} = useGetWorkspaces()
+
+  const [open, setOpen] = useCreateWorkspaceModal()
 
   const workspaceID = useMemo(() => 
     data?.[0]?._id
@@ -16,10 +19,11 @@ export default function Home() {
 
     if(workspaceID){
       console.log("return to workspace")
-    } else {
-      console.log("open creation mode")
+    } else if(!open) {
+      // console.log("open creation mode")
+      setOpen(true)
     }
-  }, [workspaceID, isLoading])
+  }, [workspaceID, isLoading, open, setOpen])
 
   return (
     <div className="w-full h-screen">
