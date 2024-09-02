@@ -31,14 +31,14 @@ const WorkspaceSwitcher = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
-        <div className="size-9 overflow-hidden bg-[#ABABAD] rounded-lg flex items-center justify-center hover:bg-[#ABABAD]/80 text-slate-800 font-semibold text-xl ">
+      <DropdownMenuTrigger asChild>
+        <Button className="size-9 overflow-hidden bg-[#ABABAD] rounded-lg hover:bg-[#ABABAD]/80 text-slate-800 font-semibold text-xl ">
           {workspaceLoading ? (
             <Loader className="size-5 animate-spin shrink-0" />
           ) : (
             workspace?.name.charAt(0).toUpperCase()
           )}
-        </div>
+        </Button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent side="bottom" align="start" className="w-64">
