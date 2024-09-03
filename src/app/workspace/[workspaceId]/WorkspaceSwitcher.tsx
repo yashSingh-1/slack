@@ -21,7 +21,7 @@ const WorkspaceSwitcher = () => {
   const workspaceId = useWorkspaceId();
   const [_open, setOpen] = useCreateWorkspaceModal();
   const { data: workspace, isLoading: workspaceLoading } =
-    useGetWorkspace(workspaceId);
+    useGetWorkspace({id: workspaceId});
   const { data: workspaces, isLoading: workspacesLoading } = useGetWorkspaces();
 
   // Every ws created by the user but the current one
