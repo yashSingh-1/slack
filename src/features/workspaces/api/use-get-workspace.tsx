@@ -10,5 +10,6 @@ export const useGetWorkspace = ({id}: UseGetWorkspaceProps ) => {
     const data = useQuery(api.workspaces.getById, {id});
     const isLoading = data === undefined;
 
+    // console.log("Data in USeGetWs", data)
     return {data, isLoading}
 }

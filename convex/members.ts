@@ -19,5 +19,7 @@ export const current = query({
         if(!member){
             return null;
         }
+
+        return member;
     }
 })

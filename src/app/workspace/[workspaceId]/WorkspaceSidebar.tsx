@@ -2,6 +2,7 @@ import { useCurrentMember } from "@/features/members/api/use-current-member";
 import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
 import { useWorkspaceId } from "@/hooks/use-workspace-id"
 import { AlertTriangle, Loader } from "lucide-react";
+import WorkspaceHeader from "./WorkspaceHeader";
 
 
 const WorkspaceSidebar = () => {
@@ -9,6 +10,8 @@ const WorkspaceSidebar = () => {
 
   const { data: member, isLoading: memberLoading } = useCurrentMember({workspaceId});
   const { data: workspace, isLoading: workspaceLoading } = useGetWorkspace({id: workspaceId});
+
+  // console.log("WS", workspace, "and", member)
 
   if(workspaceLoading || memberLoading) {
     return (
@@ -28,7 +31,10 @@ const WorkspaceSidebar = () => {
   }
 
   return (
-    <div>WorkspaceSidebar</div>
+    <div className="flex flex-col gap-y-2 bg-[#5E2C5F] h-full">
+      <WorkspaceHeader />
+      WorkspaceSidebar
+    </div>
   )
 }
 

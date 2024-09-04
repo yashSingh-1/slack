@@ -84,10 +84,15 @@ export const getById = query({
                  (q) => q.eq("workspaceId", args.id).eq("userId", userId))
                  .unique();
 
+        // console.log("Member", member)
+
         if(!member) {
+            console.log("No member")
             return null; 
         }
 
-        return await ctx.db.get(args.id)
+        const id = await ctx.db.get(args.id);
+        // console.log("Id in the ws", id)
+        return id
     }
 })
