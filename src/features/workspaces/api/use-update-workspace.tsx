@@ -3,7 +3,7 @@ import { api } from "../../../../convex/_generated/api";
 import { useCallback, useMemo, useState } from "react";
 import { Id } from "../../../../convex/_generated/dataModel";
 
-type RequestType = { name: string };
+type RequestType = { id: Id<"workspaces">; name: string };
 type ResponseType = Id<"workspaces"> | null;
 
 type Options = {
@@ -12,22 +12,23 @@ type Options = {
   onSettled?: () => void;
 };
 
-const useCreateWorkSpace = () => {
+const useUpdateWorkspace = () => {
   const [data, setData] = useState<ResponseType>(null);
   const [error, setError] = useState<Error | null>(null);
-  const [status, setStatus] = useState<"success" | "error" | "settled" | "pending" | null>(null)
-//   const [isPending, setisPending] = useState(false);
-//   const [isSuccess, setisSuccess] = useState(false);
-//   const [isError, setisError] = useState(false);
-//   const [isSettled, setisSettled] = useState(false);
+  const [status, setStatus] = useState<
+    "success" | "error" | "settled" | "pending" | null
+  >(null);
+  //   const [isPending, setisPending] = useState(false);
+  //   const [isSuccess, setisSuccess] = useState(false);
+  //   const [isError, setisError] = useState(false);
+  //   const [isSettled, setisSettled] = useState(false);
 
-const isPending = useMemo(() => status === "pending", [status])
-const isSuccess = useMemo(() => status === "success", [status])
-const isError = useMemo(() => status === "error", [status])
-const isSettled = useMemo(() => status === "settled", [status])
+  const isPending = useMemo(() => status === "pending", [status]);
+  const isSuccess = useMemo(() => status === "success", [status]);
+  const isError = useMemo(() => status === "error", [status]);
+  const isSettled = useMemo(() => status === "settled", [status]);
 
-
-  const mutation = useMutation(api.workspaces.create);
+  const mutation = useMutation(api.workspaces.update);
 
   const mutate = useCallback(
     async (values: RequestType, options?: Options) => {
@@ -35,16 +36,15 @@ const isSettled = useMemo(() => status === "settled", [status])
         // Resetting
         setData(null);
         setError(null);
-        setStatus("pending")
-        
+        setStatus("pending");
 
         const response = await mutation(values);
         options?.onSuccess?.(response);
       } catch (error) {
-        setStatus("error")
+        setStatus("error");
         options?.onError?.(error as Error);
       } finally {
-        setStatus("settled")
+        setStatus("settled");
         options?.onSettled?.();
       }
     },
@@ -58,8 +58,8 @@ const isSettled = useMemo(() => status === "settled", [status])
     isPending,
     isError,
     isSettled,
-    isSuccess
+    isSuccess,
   };
 };
 
-export default useCreateWorkSpace;
+export default useUpdateWorkspace;
