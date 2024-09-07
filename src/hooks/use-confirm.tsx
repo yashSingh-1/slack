@@ -1,14 +1,16 @@
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+  DialogTitle
 } from "@/components/ui/dialog";
 import { useState } from "react";
 
-const UseConfirm = (title: string, message: string): [any, any] => {
+// Hook to ask the user if he confirms, some action that is irreversible!
+const UseConfirm = (title: string, message: string): [() => JSX.Element, () => Promise<unknown>] => {
     const [promise, setPromise] = useState<{resolve: (value: boolean) => void} | null >(null)
 
     const confirm = () => new Promise((resolve, reject) => {
@@ -30,8 +32,37 @@ const UseConfirm = (title: string, message: string): [any, any] => {
         handleClose();
     }
 
+    const ConfirmDialog = () => {
+      return <Dialog open={promise != null}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {title}
+            </DialogTitle>
+            <DialogDescription>
+              {message}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="pt-2">
+            <Button
+              onClick={handleCancel}
+              variant={"outline"}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleConfirm}
+            >
+              Confirm
+            </Button>
+          </DialogFooter>
+        </DialogContent>
 
-  return ["", ""];
+      </Dialog>
+    }
+
+
+  return [ConfirmDialog, confirm];
 };
 
 export default UseConfirm;

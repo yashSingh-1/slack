@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import useRemoveWorkspace from "@/features/workspaces/api/use-remove-workspace";
 import useUpdateWorkspace from "@/features/workspaces/api/use-update-workspace";
+import UseConfirm from "@/hooks/use-confirm";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { TrashIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -29,6 +30,10 @@ const Preferences = ({ open, setOpen, initailValue }: PreferencesProps) => {
   const [value, setValue] = useState(initailValue);
   const [editOpen, setEditOpen] = useState(false);
   const router = useRouter();
+  const [ConfirmDialog, confirm] = UseConfirm(
+    "Are you Sure?",
+    "This action is irreversible."
+  );
 
   const { mutate: updateWorkspace, isPending: isUpdatingWorkspace } =
     useUpdateWorkspace();
@@ -36,7 +41,13 @@ const Preferences = ({ open, setOpen, initailValue }: PreferencesProps) => {
     useRemoveWorkspace();
 
   // Remove/ Delete a ws
-  const handleRemove = () => {
+  const handleRemove = async () => {
+    const ok = await confirm()
+
+    if(!ok){
+      return;
+    }
+    
     removeWorkspace(
       {
         id: workspaceId,
@@ -76,6 +87,8 @@ const Preferences = ({ open, setOpen, initailValue }: PreferencesProps) => {
   };
 
   return (
+    <>
+    <ConfirmDialog />
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="p-0 bg-gray-50 overflow-hidden">
         <DialogHeader className="p-4 border-b bg-white">
@@ -134,6 +147,7 @@ const Preferences = ({ open, setOpen, initailValue }: PreferencesProps) => {
         </div>
       </DialogContent>
     </Dialog>
+    </>
   );
 };
 
