@@ -10,6 +10,9 @@ import { Id } from "../../../../convex/_generated/dataModel"
 import { Loader } from "lucide-react"
 import useJoin from "@/features/workspaces/api/use-join"
 import { toast } from "sonner"
+import { useRouter } from "next/navigation"
+import { cn } from "@/lib/utils"
+import { useEffect, useMemo } from "react"
 
 interface JoinPageProps {
     params: {
@@ -20,14 +23,24 @@ interface JoinPageProps {
 const JoinPage = ({params}: JoinPageProps) => {
     // const workspaceId = params.workspaceId;
     const workspaceId = useWorkspaceId();
+    const router = useRouter();
 
     const {mutate, isPending} = useJoin();
     const { data, isLoading } = useGetWorkspaceInfo({id: workspaceId})
 
+    const isMember = useMemo(() => data?.isMember, [data?.isMember])
+
+    useEffect(() => {
+        if(isMember){
+            router.push(`/workspace/${workspaceId}`)
+        }
+    }, [isMember, router, workspaceId])
+
     const handleComplete = (value: string) => {
         mutate({workspaceId, joinCode: value}, {
             onSuccess: (id) => {
-                toast.success("Workspace Joined, ")
+                toast.success("Workspace Joined.")
+                router.replace(`/workspace/${workspaceId}`)
             },
             onError: () => {
                 toast.error("failed to join the Workspace")
@@ -56,13 +69,14 @@ const JoinPage = ({params}: JoinPageProps) => {
             <VerificationInput 
                 length={6}
                 classNames={{
-                    container: "flex gap-x-2",
+                    container: cn("flex gap-x-2", isPending && "opacity-50 cursor-not-allowed"),
                     character: "uppercase h-auto rounded-md border border-gray-300 flex items-center justify-center text-lg font-medium text-gray-600",
                     characterInactive: "bg-muted",
                     characterSelected: "bg-white text-black",
                     characterFilled: "bg-white text-black"
                 }}
                 autoFocus
+                onComplete={handleComplete}
             />
 
         </div>

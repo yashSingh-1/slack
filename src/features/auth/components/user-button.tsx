@@ -27,17 +27,19 @@ const UserButton = () => {
 
   const { image, name, email } = data;
 
-  const fallback = name?.charAt(0).toUpperCase();
+  const fallbackText = name?.charAt(0).toUpperCase();
 
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger className="outline-none relative">
-        <Avatar className="size-10 hover:opacity-75 transition rounded-md">
-          {image ? (
-            <AvatarImage src={image} className="rounded-md"/>
-          ) : (
-            <AvatarFallback className="font-mono rounded-md text-xl">{fallback}</AvatarFallback>
-          )}
+        <Avatar className="size-10 hover:opacity-75 transition rounded-md border-2 border-white">
+          {image ? 
+            <AvatarImage src={image} className="rounded-lg"/>
+           : 
+            <AvatarFallback className="font-mono rounded-lg text-xl text-white">
+              {fallbackText}
+            </AvatarFallback>
+          }
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="center" side="right" className="w-60">
