@@ -62,3 +62,25 @@ export const create = mutation({
         return channelId;
     }
 })
+
+// Query to check if the channel exists
+export const checkingChannel = query({
+    args:{
+        channelId: v.id("channels")
+    },
+    handler: async (ctx, args) => {
+        const userId = await getAuthUserId(ctx)
+
+        if(!userId) {
+            return null;
+        }
+
+        const checkIfExists = await ctx.db.get(args.channelId)
+
+        if(checkIfExists === null){
+            return null
+        }
+
+        return checkIfExists;
+    }
+})
