@@ -4,6 +4,7 @@ import { useGetIndiChannel } from "@/features/channels/api/use-get-indi-channel"
 import { useChannelId } from "@/hooks/use-channel-id"
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { Loader, TriangleAlert } from "lucide-react";
+import Header from "./Header";
 
 const ChannelPage = () => {
   const channelId = useChannelId();
@@ -20,14 +21,20 @@ const ChannelPage = () => {
     </div>
   }
 
-  if(channel){
+  if(!channel){
     <div className="h-full flex-1 flex flex-col gap-y-2 items-center justify-center">
       <TriangleAlert className="size-6 text-muted-foreground"/>
+      <span className="text-sm text-muted-foreground">
+        Channel not found
+      </span>
     </div>
   }
 
   return (
-    <div>ChannelPage</div>
+    <div className="flex flex-col h-full">
+      <Header channelName={channel?.name} />
+
+    </div>
   )
 }
 
