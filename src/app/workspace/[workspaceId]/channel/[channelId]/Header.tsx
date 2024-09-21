@@ -21,8 +21,10 @@ interface Props {
 const Header = ({ channelName }: Props) => {
   const [editOpen, setEditOpen] = useState(false);
   const [value, setValue] = useState(channelName);
-    function handleNameChange(event: FormEvent<HTMLFormElement>): void {
-        throw new Error("Function not implemented.");
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value.replace(/\s+/g, "-").toLowerCase();
+        setValue(value);
     }
 
   return (
@@ -61,11 +63,12 @@ const Header = ({ channelName }: Props) => {
                         Rename the channel
                     </DialogTitle>
                 </DialogHeader>
-                    <form onSubmit={handleNameChange} className="space-y-4">
+                    <form  className="space-y-4">
                   <Input placeholder="e.g. plan-budget"
                     value={value}
                     disabled={false}
                     required
+                    onChange={handleChange}
                     minLength={3}
                     maxLength={50}
                     
