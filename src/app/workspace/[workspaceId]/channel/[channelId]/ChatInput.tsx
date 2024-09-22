@@ -9,4 +9,4 @@ const ChatInput = () => {
   )
 }
 
-export default ChatInput
+export default ChatInput;
