@@ -15,6 +15,7 @@ const ChannelPage = () => {
     channelId: channelId,
     workspaceId: workspaceID
   })
+  // console.log("Channel: 123: ", channel)
 
   if(channelLoading){
     <div className="h-full flex-1 flex items-center justify-center">
@@ -35,7 +36,7 @@ const ChannelPage = () => {
     <div className="flex flex-col h-full">
       <Header channelName={channel?.name} />
       <div className="flex-1"/>
-      <ChatInput />
+      <ChatInput placeholder={`${channel?.name ? "Message #" + channel?.name : "Message the channel"}`} />
     </div>
   )
 }
