@@ -66,7 +66,6 @@ export const get = query({
                 })
             }
         }
-        console.log("Members arr", members);
 
         return members;
     }

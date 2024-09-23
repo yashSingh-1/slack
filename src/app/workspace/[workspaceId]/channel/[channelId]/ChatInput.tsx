@@ -21,7 +21,7 @@ const ChatInput = ({placeholder}: ChatInputProps) => {
         onSubmit={() => {}}
         disabled={false}
         innerRef={editorRef}
-        // defaultValue={}
+        defaultValue={undefined}
         />
     </div>
   )
